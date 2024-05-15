@@ -1,20 +1,24 @@
 using System;
+using System.Collections.Generic;
 
 namespace PlayerManager4
 {
-    public class Player : IComparable<Player>
+    public class Program
     {
         private static void Main(string[] args)
         {
-            playerList = new List<Player>() {
+            List<Player> playerList = new List<Player>() {
                 new Player("Best player ever", 100),
                 new Player("An even better player", 500)
             };
-            IView view = new UglyView();
+
             // Create a new instance of the player listing Controller
-            Controller controller = new Controller();
+            Controller controller = new Controller(playerList);
+
+            IView view = new UglyView(controller, playerList);
+
             // Start the Controller instance
-            controller.Start();
+            controller.Start(view);
         }
     }
 }

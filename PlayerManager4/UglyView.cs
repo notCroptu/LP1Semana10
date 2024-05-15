@@ -7,7 +7,15 @@ namespace PlayerManager4
 {
     public class UglyView : IView
     {
-        public int MainMenu()
+        private readonly Controller controller;
+        private readonly List<Player> players;
+
+        public UglyView(Controller controller, List<Player> players)
+        {
+            this.controller = controller;
+            this.players = players;
+        }
+        public int ShowMenu()
         {
             Console.WriteLine("Menu");
             Console.WriteLine("----\n");
@@ -24,18 +32,18 @@ namespace PlayerManager4
         {
             Console.WriteLine("\nBye!\n");
         }
-        void InvalidOption()
+        public void InvalidOption()
         {
             Console.Error.WriteLine("\n>>> Unknown option! <<<\n");
         }
-        void AfterMenu()
+        public void AfterMenu()
         {
             // Wait for user to press a key...
             Console.Write("\nPress any key to continue...");
-            Console.ReadKey(true);
+            Console.ReadLine();
             Console.WriteLine("\n");
         }
-        Player InsertPlayer()
+        public Player InsertPlayer()
         {
             // Variables
             string name;
@@ -52,12 +60,12 @@ namespace PlayerManager4
             // Create new player and add it to list
             return new Player(name, score);
         }
-        int AskForMinScore(int score)
+        public int AskForMinScore()
         {
             Console.Write("\nMinimum score player should have? ");
             return Convert.ToInt32(Console.ReadLine());
         }
-        PlayerOrder AskForPlayerOrder();
+        public PlayerOrder AskForPlayerOrder()
         {
             Console.WriteLine("Player order");
             Console.WriteLine("------------");
@@ -71,6 +79,18 @@ namespace PlayerManager4
             Console.Write("> ");
 
             return Enum.Parse<PlayerOrder>(Console.ReadLine());
+        }
+        public void ListPlayers(IEnumerable<Player> playersToList)
+        {
+            Console.WriteLine("\nList of players");
+            Console.WriteLine("-------------\n");
+
+            // Show each player in the enumerable object
+            foreach (Player p in playersToList)
+            {
+                Console.WriteLine($" -> {p.Name} with a score of {p.Score}");
+            }
+            Console.WriteLine();
         }
     }
 }

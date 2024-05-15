@@ -21,20 +21,20 @@ namespace PlayerManager4
         /// <summary>
         /// Creates a new instance of the player listing Controller.
         /// </summary>
-        public Controller(IView view)
+        public Controller(List<Player> players)
         {
+            playerList = players;
             // Initialize player comparers
             compareByName = new CompareByName(true);
             compareByNameReverse = new CompareByName(false);
-
-            view.this = view;
         }
 
         /// <summary>
         /// Start the player listing Controller instance
         /// </summary>
-        private void Start()
+        public void Start(IView newView)
         {
+            view = newView;
             // We keep the user's option here
             int option;
 
@@ -52,7 +52,7 @@ namespace PlayerManager4
                         InsertPlayer();
                         break;
                     case 2:
-                        ListPlayers(playerList);
+                        view.ListPlayers(playerList);
                         break;
                     case 3:
                         ListPlayersWithScoreGreaterThan();
@@ -71,7 +71,7 @@ namespace PlayerManager4
                 view.AfterMenu();
 
                 // Loop keeps going until players choses to quit (option 4)
-            } while (option != "0");
+            } while (option != 0);
         }
 
         /// <summary>
@@ -82,28 +82,6 @@ namespace PlayerManager4
             // Create new player and add it to list
             Player newPlayer = view.InsertPlayer();
             playerList.Add(newPlayer);
-        }
-
-        /// <summary>
-        /// Show all players in a list of players. This method can be static
-        /// because it doesn't depend on anything associated with an instance
-        /// of the Controller. Namely, the list of players is given as a parameter
-        /// to this method.
-        /// </summary>
-        /// <param name="playersToList">
-        /// An enumerable object of players to show.
-        /// </param>
-        private static void ListPlayers(IEnumerable<Player> playersToList)
-        {
-            Console.WriteLine("\nList of players");
-            Console.WriteLine("-------------\n");
-
-            // Show each player in the enumerable object
-            foreach (Player p in playersToList)
-            {
-                Console.WriteLine($" -> {p.Name} with a score of {p.Score}");
-            }
-            Console.WriteLine();
         }
 
         /// <summary>
@@ -124,7 +102,7 @@ namespace PlayerManager4
                 GetPlayersWithScoreGreaterThan(minScore);
 
             // List all players with score higher than the user-specified value
-            ListPlayers(playersWithScoreGreaterThan);
+            view.ListPlayers(playersWithScoreGreaterThan);
         }
 
         /// <summary>
@@ -154,9 +132,7 @@ namespace PlayerManager4
         /// </summary>
         private void SortPlayerList()
         {
-            PlayerOrder playerOrder;
-
-            playerOrder = view.AskForPlayerOrder();
+            PlayerOrder playerOrder = view.AskForPlayerOrder();
 
             switch (playerOrder)
             {

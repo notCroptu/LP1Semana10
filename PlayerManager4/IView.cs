@@ -7,7 +7,7 @@ namespace PlayerManager4
 {
     public interface IView
     {
-        int MainMenu();
+        int ShowMenu();
         void EndMessage();
         void InvalidOption();
         void AfterMenu();
