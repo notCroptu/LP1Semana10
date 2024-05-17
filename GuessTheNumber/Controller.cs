@@ -4,50 +4,42 @@ namespace GuessTheNumber
 {
     public class Controller
     {
-        public Controller()
+        private Model model;
+        private IView view;
+        public Controller(Model model)
         {
-            
+            this.model = model;
         }
-        private static void Main()
+        public Start(IView newView)
         {
-            // Generate a random number
-            Random random = new Random();
-
-            // Generate a number between 1 and 100
-            int targetNumber = random.Next(1, 101);
+            view = newView;
 
             int guess;
-            int attempts = 0;
             bool guessedCorrectly = false;
 
-            Console.WriteLine("Welcome to Guess the Number!");
-            Console.WriteLine("I have chosen a number between 1 and 100.");
+            view.WelcomePlayer();
 
             // Game loop
             while (!guessedCorrectly)
             {
-                Console.Write("Take a guess: ");
-                guess = Convert.ToInt32(Console.ReadLine());
-                attempts++;
+                guess = view.AskForGuess();
+                model.IncrementAttempts();
 
-                if (guess == targetNumber)
+                if (guess == model.Get())
                 {
-                    Console.WriteLine(
-                        "Congratulations! You guessed the number correctly!");
-                    Console.WriteLine("Number of attempts: " + attempts);
-                    guessedCorrectly = true;
+                    guessedCorrectly = view.Congratulate();
                 }
-                else if (guess < targetNumber)
+                else if (guess < model.Get())
                 {
-                    Console.WriteLine("Too low! Try again.");
+                    view.TooLow();
                 }
                 else
                 {
-                    Console.WriteLine("Too high! Try again.");
+                    view.TooHigh();
                 }
             }
 
-            Console.WriteLine("Thank you for playing Guess the Number!");
+            view.ThankPlayer();
         }
     }
 }
