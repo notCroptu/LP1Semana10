@@ -4,9 +4,9 @@ namespace GuessTheNumber
 {
     public class Model
     {
-            Random random;
-            int targetNumber;
-            int Attempts { get; };
+        private Random random;
+        private int targetNumber;
+        public int Attempts { get; private set; }
 
         public Model()
         {
@@ -16,9 +16,9 @@ namespace GuessTheNumber
             // Generate a number between 1 and 100
             targetNumber = random.Next(1, 101);
 
-            attempts = 0;
+            Attempts = 0;
         }
-        public IncrementAttempts()
+        public void IncrementAttempts()
         {
             Attempts++;
         }

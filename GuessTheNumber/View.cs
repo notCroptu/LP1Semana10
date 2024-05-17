@@ -2,12 +2,12 @@
 
 namespace GuessTheNumber
 {
-    public class View
+    public class View : IView
     {
         private readonly Controller controller;
         private readonly Model model;
 
-        public UglyView(Controller controller, Model model)
+        public View(Controller controller, Model model)
         {
             this.controller = controller;
             this.model = model;
@@ -26,7 +26,7 @@ namespace GuessTheNumber
         {
             Console.WriteLine(
                 "Congratulations! You guessed the number correctly!");
-            Console.WriteLine("Number of attempts: " + model.Get());
+            Console.WriteLine("Number of attempts: " + model.Attempts);
             return true;
         }
         public void TooLow()

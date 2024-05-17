@@ -10,7 +10,7 @@ namespace GuessTheNumber
         {
             this.model = model;
         }
-        public Start(IView newView)
+        public void Start(IView newView)
         {
             view = newView;
 

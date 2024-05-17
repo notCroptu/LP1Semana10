@@ -15,5 +15,6 @@ namespace GuessTheNumber
 
             // Start the Controller instance
             controller.Start(view);
+        }
     }
 }
